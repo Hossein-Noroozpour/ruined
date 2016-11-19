@@ -10,7 +10,9 @@ use std::sync::{
 
 const NUM_THREADS: usize = 128;
 
-fn main() {
+pub mod info;
+
+fn start() {
     let mut threads = Vec::new();
     let listener = TcpListener::bind("127.0.0.1:9123").unwrap();
     println!("Listening started, ready to accept");
@@ -24,8 +26,12 @@ fn main() {
                     let listener = col_listener.lock().unwrap();
                     listener.accept().unwrap()
                 };
-                stream.write(b"Hello World\r\n").unwrap();
-                let (_, _) = (thread_id, address);
+                let mut inf = info::Info {
+                    stream: stream,
+                    thread_id: thread_id,
+                    client_address: address,
+                };
+
             }
         }));
     }
