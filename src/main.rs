@@ -11,6 +11,7 @@ use std::sync::{
 const NUM_THREADS: usize = 128;
 
 pub mod info;
+pub mod secure;
 
 fn start() {
     let mut threads = Vec::new();
@@ -31,7 +32,7 @@ fn start() {
                     thread_id: thread_id,
                     client_address: address,
                 };
-
+                let mut sec = secure::SecureConnection::new(inf);
             }
         }));
     }
